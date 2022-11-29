@@ -1,0 +1,13 @@
+name: Cron job to change responsibilities
+on:
+  schedule:
+    - cron: '0-59 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hourly cron job
+        run: |
+          curl --request POST \
+          --url 'https://thetribe-responsibilities/api/responsibilities' \
+          --header 'Authorization: Bearer ${{ secrets.ACTION_KEY }}'

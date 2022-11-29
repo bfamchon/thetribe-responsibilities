@@ -1,0 +1,30 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Responsibility {
+  id         String   @id @default(cuid())
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  referent   User     @relation(fields: [referentId], references: [id])
+  referentId String
+  lastAffectDate  DateTime 
+  updatedAt  DateTime @updatedAt @map(name: "updated_at")
+}
+
+model Category {
+  id             String           @id @default(cuid())
+  name           String
+  Responsibility Responsibility[]
+}
+
+model User {
+  id             String           @id @default(cuid())
+  fullName       String
+  Responsibility Responsibility[]
+}
